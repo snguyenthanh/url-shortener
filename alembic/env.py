@@ -43,7 +43,8 @@ def get_url():
         environ.get("DB_DATABASE", "postgres"),
     )
 
-config.set_main_option('sqlalchemy.url', get_url())
+
+config.set_main_option("sqlalchemy.url", get_url())
 
 
 def run_migrations_offline():

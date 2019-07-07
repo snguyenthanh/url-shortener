@@ -11,6 +11,7 @@ sanic = "*"
 gino = "*"
 alembic = "*"
 psycopg2-binary = "*"
+cerberus = "*"
 
 [requires]
 python_version = "3.7"
