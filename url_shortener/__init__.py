@@ -3,12 +3,15 @@ from os import environ
 from gino.ext.sanic import Gino
 from sanic import Blueprint, Sanic
 
+from url_shortener.config import DB_KWARGS
+
 
 app = Sanic(__name__)
 app.config.DB_HOST = environ.get("DB_HOST", "localhost")
 app.config.DB_USER = environ.get("DB_USER", "postgres")
 app.config.DB_PASSWORD = environ.get("DB_PASSWORD")
 app.config.DB_DATABASE = environ.get("DB_DATABASE", "postgres")
+app.config.DB_KWARGS = DB_KWARGS
 
 # Initialize the DB before doing anything else
 # to avoid circular importing

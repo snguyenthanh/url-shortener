@@ -8,7 +8,7 @@ from url_shortener.exceptions import SchemaValidationError
 
 UrlCreateSchema = {
     "id": {"readonly": True},
-    "url_hash": {"type": "string"},
+    "url_alias": {"type": "string"},
     "actual_url": {"type": "string", "required": True},
     "created_at": {"readonly": True},
     "updated_at": {"readonly": True},
@@ -17,7 +17,7 @@ UrlCreateSchema = {
 
 UrlUpdateSchema = {
     "id": {"readonly": True},
-    "url_hash": {"type": "string"},
+    "url_alias": {"type": "string"},
     "actual_url": {"type": "string"},
     "created_at": {"readonly": True},
     "updated_at": {"readonly": True},

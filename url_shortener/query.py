@@ -7,12 +7,5 @@ async def execute(func):
 
     # TO-DO: Implement a retry mechanism with exponential backoff
     # if necessary
-    # tx = await db.transaction()
-    # try:
-    #     await func()
-    #     await tx.commit()
-    # except Exception:
-    #     await tx.rollback()
-    #     raise
     async with db.transaction() as tx:
         await func()
