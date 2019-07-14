@@ -1,6 +1,7 @@
 from functools import partial
 from cerberus import Validator
 from sanic import response
+from sanic.exceptions import InvalidUsage
 
 from url_shortener.exceptions import SchemaValidationError
 
@@ -28,6 +29,7 @@ UserSchema = {
     "id": {"readonly": True},
     "username": {"type": "string", "required": True},
     "created_at": {"readonly": True},
+    "api_key": {"readonly": True},
 }
 
 
@@ -40,21 +42,24 @@ model_mapping = {
 }
 
 
-def validate_request_data(func=None, schema=None):
+def validate_request_data(func=None, schema=None, allow_empty=False):
     """
     Validate the request data to ensure private fields are protected.
 
     Raise:
         sanic.exceptions.InvalidUsage: Failed when parsing body as json
-            If `request.json` fails.
+            If `request.json` fails to execute.
     """
     if func is None:
-        return partial(validate_request_data, schema=schema)
+        return partial(validate_request_data, schema=schema, allow_empty=allow_empty)
 
     def inner(request, *args, **kwargs):
+        req_data = request.json
+        if not allow_empty and not req_data:
+            raise InvalidUsage("The request's body must not be empty.")
+
         if schema and schema in model_mapping:
             validator = Validator()
-            req_data = request.json
             _schema = model_mapping[schema]
             if not validator.validate(req_data, _schema):
                 raise SchemaValidationError(validator.errors)
